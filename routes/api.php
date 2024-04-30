@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\LampController;
+use App\Http\Controllers\Api\SensorController;
+use App\Http\Controllers\Api\SensorLogController;
+use App\Http\Controllers\Api\TemperatureController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\SensorController;
-use App\Http\Controllers\Api\LampController;
-use App\Http\Controllers\Api\SensorLogController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\DeviceController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,12 +19,11 @@ use App\Http\Controllers\Api\DeviceController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-*/
+ */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 
 //Route Auth
 Route::prefix('v1/auth')->name('auth.')->group(function () {
@@ -79,3 +80,13 @@ Route::prefix('v1/devices')->name('devices.')->group(function () {
     Route::delete('/{code}', [DeviceController::class, 'destroy'])->name('delete');
 });
 
+// Route temperature
+Route::prefix('v1/temperatures')->name('temperatures.')->group(function () {
+    // http method/ action: GET, POST, PUT, PATCH, DELETE
+    // GET api/v1/temperatures
+    Route::get('/', [TemperatureController::class, 'index'])
+        ->name('get');
+    // POST api/v1/temperatures
+    Route::post('/', [TemperatureController::class, 'store'])
+        ->name('store');
+});
